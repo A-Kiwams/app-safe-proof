@@ -1,4 +1,8 @@
-import SamplePage from './pages/SamplePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import DashboardPage from './pages/DashboardPage';
+import CasesPage from './pages/CasesPage';
+import CaseDetailPage from './pages/CaseDetailPage';
 import type { ReactNode } from 'react';
 
 export interface RouteConfig {
@@ -12,9 +16,30 @@ export interface RouteConfig {
 
 export const routes: RouteConfig[] = [
   {
-    name: 'Sample Page',
-    path: '/',
-    element: <SamplePage />,
+    name: 'Login',
+    path: '/login',
+    element: <LoginPage />,
     public: true,
-  }
+  },
+  {
+    name: 'Register',
+    path: '/register',
+    element: <RegisterPage />,
+    public: true,
+  },
+  {
+    name: 'Dashboard',
+    path: '/dashboard',
+    element: <DashboardPage />,
+  },
+  {
+    name: 'Cases',
+    path: '/cases',
+    element: <CasesPage />,
+  },
+  {
+    name: 'Case Detail',
+    path: '/cases/:id',
+    element: <CaseDetailPage />,
+  },
 ];

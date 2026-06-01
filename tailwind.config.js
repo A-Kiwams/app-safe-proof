@@ -60,13 +60,12 @@ export default {
                     DEFAULT: 'hsl(var(--card))',
                     foreground: 'hsl(var(--card-foreground))'
                 },
-                education: {
-                    blue: 'hsl(var(--education-blue))',
-                    green: 'hsl(var(--education-green))'
-                },
                 success: 'hsl(var(--success))',
+                'success-foreground': 'hsl(var(--success-foreground))',
                 warning: 'hsl(var(--warning))',
+                'warning-foreground': 'hsl(var(--warning-foreground))',
                 info: 'hsl(var(--info))',
+                'info-foreground': 'hsl(var(--info-foreground))',
                 sidebar: {
                     DEFAULT: 'hsl(var(--sidebar-background))',
                     background: 'hsl(var(--sidebar-background))',
