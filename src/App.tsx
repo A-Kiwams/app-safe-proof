@@ -13,7 +13,6 @@ const App: React.FC = () => {
         <RouteGuard>
           <IntersectObserver />
           <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
             {routes.map((route, index) => (
               <Route
                 key={index}
@@ -21,7 +20,7 @@ const App: React.FC = () => {
                 element={route.element}
               />
             ))}
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
           <Toaster />
         </RouteGuard>

@@ -1,5 +1,6 @@
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import LandingPage from './pages/LandingPage';
 import DashboardPage from './pages/DashboardPage';
 import CasesPage from './pages/CasesPage';
 import CaseDetailPage from './pages/CaseDetailPage';
@@ -15,6 +16,12 @@ export interface RouteConfig {
 }
 
 export const routes: RouteConfig[] = [
+  {
+    name: 'Home',
+    path: '/',
+    element: <LandingPage />,
+    public: true,
+  },
   {
     name: 'Login',
     path: '/login',
