@@ -28,7 +28,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const handleSignOut = async () => {
     await signOut();
     toast.success('Signed out successfully');
-    navigate('/login');
+    navigate('/');
     onNavigate?.();
   };
 
