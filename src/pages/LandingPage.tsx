@@ -131,7 +131,7 @@ export default function LandingPage() {
               Secure & Confidential
             </div>
             <h1 className="text-3xl md:text-5xl font-bold text-foreground leading-tight text-balance mb-5">
-              Your story, documented with <span className="text-primary">safety</span>
+              Harassment Evidence in One Place. <span className="text-primary">Stronger Case!</span>
             </h1>
             <p className="text-base md:text-lg text-muted-foreground leading-relaxed text-pretty max-w-2xl mb-8">
               SafeProof is an AI-powered evidence organizer designed for people experiencing harassment or abuse. Upload screenshots, messages, and documents — we help you build a chronological timeline, detect patterns, and generate a professional report for HR, legal, or institutional filing.
