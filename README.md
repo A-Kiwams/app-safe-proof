@@ -1,10 +1,8 @@
-# Welcome to Your Miaoda Project
-Miaoda Application Link URL
+# Welcome to SafeProof Project
+Live Application
     URL:https://medo.dev/projects/app-c1hp9zu9xfy9
 
-# Welcome to Your Miaoda Project
-
-## Project Info
+# How to Build Project Locally
 
 ## Project Directory
 
