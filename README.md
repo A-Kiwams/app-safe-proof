@@ -1,6 +1,6 @@
 # Welcome to SafeProof Project
 Live Application
-    URL:https://medo.dev/projects/app-c1hp9zu9xfy9
+    URL: https://app-c1hp9zu9xfy9.appmedo.com
 
 # How to Build Project Locally
 
