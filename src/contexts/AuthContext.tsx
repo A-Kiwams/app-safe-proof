@@ -109,10 +109,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  useEffect(() => {
+    if (profile) {
+      pendo.identify({
+        visitor: {
+          id: profile.id,
+          email: profile.email ?? undefined,
+          phone: profile.phone ?? undefined,
+          role: profile.role,
+          createdAt: profile.created_at,
+        }
+      });
+    }
+  }, [profile]);
+
   const signOut = async () => {
     await supabase.auth.signOut();
     setUser(null);
     setProfile(null);
+    pendo.clearSession();
   };
 
   return (
