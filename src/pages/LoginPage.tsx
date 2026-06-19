@@ -39,6 +39,9 @@ export default function LoginPage() {
     if (authError) {
       setError('Invalid username or password. Please try again.');
     } else {
+      pendo.track('user_signed_in', {
+        username_length: username.trim().length,
+      });
       toast.success('Welcome back!');
       navigate('/dashboard');
     }

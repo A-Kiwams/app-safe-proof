@@ -102,6 +102,9 @@ export function EvidenceUploader({ caseId, userId, onUploadComplete }: EvidenceU
     setUploading(true);
     setProgress(0);
 
+    let successfulUploads = 0;
+    let failedUploads = 0;
+
     for (let i = 0; i < validFiles.length; i++) {
       let file = validFiles[i];
       let compressed = false;
@@ -124,6 +127,7 @@ export function EvidenceUploader({ caseId, userId, onUploadComplete }: EvidenceU
         .upload(filePath, file, { contentType: file.type });
 
       if (storageError) {
+        failedUploads++;
         toast.error(`Failed to upload ${file.name}: ${storageError.message}`);
         setProgress(Math.round(((i + 1) / validFiles.length) * 100));
         continue;
@@ -148,8 +152,10 @@ export function EvidenceUploader({ caseId, userId, onUploadComplete }: EvidenceU
         .maybeSingle();
 
       if (dbError) {
+        failedUploads++;
         toast.error(`Failed to save evidence record for ${file.name}`);
       } else if (evidenceData) {
+        successfulUploads++;
         setUploadedFiles((prev) => [
           ...prev,
           {
@@ -161,6 +167,16 @@ export function EvidenceUploader({ caseId, userId, onUploadComplete }: EvidenceU
             evidenceId: evidenceData.id,
           },
         ]);
+        pendo.track('evidence_uploaded', {
+          case_id: caseId,
+          evidence_id: evidenceData.id,
+          file_type: file.type,
+          file_size_bytes: file.size,
+          original_file_name: validFiles[i].name,
+          was_compressed: compressed,
+          batch_total_files: validFiles.length,
+          batch_position: i + 1,
+        });
         const msg = compressed
           ? `${validFiles[i].name} uploaded & compressed (${formatBytes(file.size)})`
           : `${validFiles[i].name} uploaded successfully`;
@@ -170,6 +186,15 @@ export function EvidenceUploader({ caseId, userId, onUploadComplete }: EvidenceU
 
       setProgress(Math.round(((i + 1) / validFiles.length) * 100));
     }
+
+    pendo.track('evidence_batch_upload_completed', {
+      case_id: caseId,
+      total_files_attempted: rawFiles.length,
+      valid_files_count: validFiles.length,
+      skipped_invalid_count: invalid,
+      successful_uploads: successfulUploads,
+      failed_uploads: failedUploads,
+    });
 
     setUploading(false);
     setStatusMsg('');

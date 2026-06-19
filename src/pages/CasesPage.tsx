@@ -48,6 +48,12 @@ export default function CasesPage() {
       .select().maybeSingle();
     setCreating(false);
     if (error) { toast.error('Failed to create case'); return; }
+    pendo.track('case_created', {
+      case_id: data?.id ?? '',
+      has_description: Boolean(newDesc.trim()),
+      title_length: newTitle.trim().length,
+      source_page: 'cases',
+    });
     toast.success('Case created');
     setCreateOpen(false);
     setNewTitle(''); setNewDesc('');

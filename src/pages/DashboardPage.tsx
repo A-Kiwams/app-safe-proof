@@ -72,6 +72,12 @@ export default function DashboardPage() {
     if (error) {
       toast.error('Failed to create case');
     } else {
+      pendo.track('case_created', {
+        case_id: data?.id ?? '',
+        has_description: Boolean(newDesc.trim()),
+        title_length: newTitle.trim().length,
+        source_page: 'dashboard',
+      });
       toast.success('Case created successfully');
       setCreateOpen(false);
       setNewTitle('');
