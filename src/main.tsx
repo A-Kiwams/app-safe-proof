@@ -3,6 +3,12 @@ import "./index.css";
 import App from "./App.tsx";
 import { AppWrapper } from "./components/common/PageMeta.tsx";
 
+pendo.initialize({
+  visitor: {
+    id: ''
+  }
+});
+
 createRoot(document.getElementById("root")!).render(
   <AppWrapper>
     <App />
