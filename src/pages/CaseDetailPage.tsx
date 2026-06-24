@@ -148,14 +148,31 @@ export default function CaseDetailPage() {
 
       if (error) {
         const msg = await error?.context?.text?.();
+        pendo.track('ai_analysis_failed', {
+          case_id: caseId,
+          evidence_count: evidence.length,
+          error_message: String(msg || error.message).substring(0, 100),
+        });
         toast.error(`Analysis failed: ${msg || error.message}`);
       } else {
+        pendo.track('ai_analysis_completed', {
+          case_id: caseId,
+          evidence_count: evidence.length,
+          incidents_found: data?.incidentsCount ?? 0,
+          patterns_found: data?.patternsCount ?? 0,
+          is_reanalysis: hasAnalysis,
+        });
         toast.success(`Analysis complete: ${data?.incidentsCount ?? 0} incidents, ${data?.patternsCount ?? 0} patterns found`);
         await fetchAll();
         setActiveTab('timeline');
       }
     } catch (err) {
       clearInterval(progressTimer);
+      pendo.track('ai_analysis_failed', {
+        case_id: caseId,
+        evidence_count: evidence.length,
+        error_message: String(err instanceof Error ? err.message : 'Unknown error').substring(0, 100),
+      });
       toast.error('Analysis failed. Please try again.');
       console.error(err);
     }
@@ -175,13 +192,30 @@ export default function CaseDetailPage() {
 
       if (error) {
         const msg = await error?.context?.text?.();
+        pendo.track('report_generation_failed', {
+          case_id: caseId,
+          error_message: String(msg || error.message).substring(0, 100),
+          had_prior_analysis: hasAnalysis,
+        });
         toast.error(`Report generation failed: ${msg || error.message}`);
       } else {
+        pendo.track('report_generated', {
+          case_id: caseId,
+          is_regeneration: Boolean(report),
+          incidents_count: incidents.length,
+          patterns_count: patterns.length,
+          evidence_count: evidence.length,
+        });
         toast.success('Professional incident report generated!');
         await fetchAll();
         setActiveTab('report');
       }
     } catch (err) {
+      pendo.track('report_generation_failed', {
+        case_id: caseId,
+        error_message: String(err instanceof Error ? err.message : 'Unknown error').substring(0, 100),
+        had_prior_analysis: hasAnalysis,
+      });
       toast.error('Report generation failed. Please try again.');
       console.error(err);
     }
@@ -286,6 +320,13 @@ export default function CaseDetailPage() {
     }
 
     const fileName = `${caseData.title.replace(/[^a-zA-Z0-9]/g, '_')}_incident_report.pdf`;
+    pendo.track('report_pdf_downloaded', {
+      case_id: caseId,
+      file_name: fileName,
+      evidence_count: evidence.length,
+      incidents_count: incidents.length,
+      total_pdf_pages: totalPages,
+    });
     doc.save(fileName);
     toast.success('Report downloaded as PDF');
   };

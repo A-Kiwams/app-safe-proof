@@ -60,6 +60,9 @@ export default function RegisterPage() {
         setError(authError.message ?? 'Registration failed. Please try again.');
       }
     } else {
+      pendo.track('user_registered', {
+        username_length: username.trim().length,
+      });
       toast.success('Account created! Welcome to SafeProof.');
       navigate('/dashboard');
     }
